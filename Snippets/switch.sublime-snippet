@@ -1,0 +1,10 @@
+<snippet>
+	<content><![CDATA[
+switch ${1:control expression} {
+case ${2:pattern}: $3
+}
+]]></content>
+	<tabTrigger>switch</tabTrigger>
+	<scope>source.spwn</scope>
+	<description>switch ...</description>
+</snippet>

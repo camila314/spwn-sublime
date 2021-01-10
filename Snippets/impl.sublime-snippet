@@ -1,0 +1,10 @@
+<snippet>
+	<content><![CDATA[impl @${1:typename} {
+	new: ($2) {
+		$3
+	},
+}]]></content>
+	<tabTrigger>impl</tabTrigger>
+	<description>Define an implementation</description>
+	<scope>source.spwn</scope>
+</snippet>

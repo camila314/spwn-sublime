@@ -1,0 +1,4 @@
+Thanks for installing. This package contains:
+ - SPWN Color scheme
+ - SPWN build system (Requires ANSIEscape package to be installed via package control)
+ - SPWN Snippets

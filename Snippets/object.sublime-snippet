@@ -1,0 +1,11 @@
+<snippet>
+	<content><![CDATA[obj {
+	OBJ_ID: ${1:object_id},
+	X: ${2:x_position},
+	Y: ${3:y_position},
+	$4
+}]]></content>
+	<tabTrigger>object</tabTrigger>
+	<!-- <description>Optionally, insert a description here</description> -->
+	<scope>source.spwn</scope>
+</snippet>

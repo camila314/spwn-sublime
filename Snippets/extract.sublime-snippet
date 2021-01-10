@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[extract ]]></content>
+	<tabTrigger>extract</tabTrigger>
+	<description>extract ...</description>
+	<scope>source.spwn</scope>
+</snippet>

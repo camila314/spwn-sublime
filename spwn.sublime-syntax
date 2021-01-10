@@ -1,0 +1,177 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: SPWN
+comment: just a modified version of the grammar of Golang
+file_extensions:
+  - spwn
+scope: source.spwn
+contexts:
+  main:
+    - match: '([^a-zA-Z0-9_]|^)\((?=.+\)\s*{)'
+      comment: Macro declaration
+      scope: meta.function.declaration.spwn
+      push: macro_def
+    - include: actual_main
+
+  macro_def:
+    - match: '([a-zA-Z_][a-zA-Z0-9_]*)'
+      scope: variable.parameter.function.spwn
+    - match: =
+      scope: keyword.operator.assignment.spwn
+      push: actual_main
+      with_prototype:
+        - match: (?=\))
+          pop: true
+        - match: \,
+          pop: true
+
+    - match: (\:)
+      push:
+        - meta_content_scope: storage.type.spwn
+        - match: (?=\))
+          pop: true
+        - match: \,
+          pop: true
+        - match: =
+          scope: keyword.operator.assignment.spwn
+          push: actual_main
+          with_prototype:
+            - match: (?=\))
+              pop: true
+            - match: (?=\,)
+              pop: true
+    - match: \)
+      pop: true
+  actual_main:
+    - match: /\*
+      comment: Block comments
+      captures:
+        0: punctuation.definition.comment.spwn
+      push:
+        - meta_scope: comment.block.spwn
+        - match: \*/
+          captures:
+            0: punctuation.definition.comment.spwn
+          pop: true
+    - match: //
+      comment: Line comments
+      captures:
+        0: punctuation.definition.comment.spwn
+      push:
+        - meta_scope: comment.line.double-slash.spwn
+        - match: $
+          pop: true
+    - match: '"'
+      comment: Double quoted string
+      captures:
+        0: punctuation.definition.string.begin.spwn
+      push:
+        - meta_scope: string.quoted.double.spwn
+        - match: '"'
+          captures:
+            0: punctuation.definition.string.end.spwn
+          pop: true
+        - include: string_escaped_char
+        - include: string_placeholder
+    - match: "'"
+      comment: Single quoted string
+      captures:
+        0: punctuation.definition.string.begin.spwn
+      push:
+        - meta_scope: string.quoted.single.spwn
+        - match: "'"
+          captures:
+            0: punctuation.definition.string.end.spwn
+          pop: true
+        - include: string_escaped_char
+        - include: string_placeholder
+    - match: '(([a-zA-Z_][a-zA-Z0-9_]*))(?=\()'
+      comment: Functions
+      scope: support.function.spwn
+
+    - include: keywords
+
+    - match: "([0-9?]+)[gbci]"
+      scope: constant.numeric.spwn
+    - match: '[0-9]+(\.[0-9]+)?'
+      scope: constant.numeric.spwn
+    - match: \bself\b
+      comment: Variables
+      scope: variable.language.spwn
+    - match: \$
+      comment: Builtin
+      scope: keyword.builtin.spwn
+    - match: "@([a-zA-Z_][a-zA-Z0-9_]*)"
+      comment: Types
+      scope: variable.language.type.spwn
+    - match: \b(true|false|null|trigger|obj)\b
+      comment: Language constants
+      scope: constant.language.spwn
+    - match: let
+      scope: storage.type.spwn
+    - match: ;
+      comment: Terminators
+      scope: punctuation.terminator.spwn
+
+    - include: notes
+
+    - match: '([a-zA-Z_][a-zA-Z0-9_]*)|\$'
+      scope: constant.symbol.spwn
+
+    - match: ^\s*-\>
+      scope: entity.name.async.spwn
+    - include: brackets
+    - include: delimiters
+    - include: operators
+  brackets:
+    - match: '\{|\}'
+      scope: punctuation.other.bracket.curly.spwn
+    - match: \(|\)
+      scope: punctuation.other.bracket.round.spwn
+    - match: '\[|\]'
+      scope: punctuation.other.bracket.square.spwn
+  delimiters:
+    - match: ","
+      scope: punctuation.other.comma.spwn
+    - match: \.(?!\.)
+      scope: punctuation.other.period.spwn
+    - match: ":"
+      scope: punctuation.other.colon.spwn
+  keywords:
+    - match: \bimpl (@?\w+)\b
+      scope: storage.type.spwn
+      captures:
+        1: entity.name.type.spwn
+    - match: ^\s*type
+      scope: keyword.control.spwn
+    - match: \b(else|for|if|return|throw|extract|in|import|break|continue|while|as|switch|case)\b
+      comment: Flow control keywords
+      scope: keyword.control.spwn
+  operators:
+    - match: (==|!=|<=|>=|<|>)
+      scope: keyword.operator.comparison.spwn
+    - match: (&&|\|\||!)
+      scope: keyword.operator.logical.spwn
+    - match: (=|\+=|\-=|\*=|/=)
+      scope: keyword.operator.assignment.spwn
+    - match: (\+|\-|\*|/|%|\^)
+      scope: keyword.operator.arithmetic.spwn
+    - match: \.\.
+      scope: keyword.operator.range.spwn
+  string_escaped_char:
+    - match: '\\([0-7]{3}|[abfnrtv\\''"]|x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4}|U[0-9a-fA-F]{8})'
+      scope: constant.character.escape.spwn
+    - match: '\\[^0-7xuUabfnrtv\''"]'
+      scope: invalid.illegal.unknown-escape.spwn
+  string_placeholder:
+    - match: '%(\[\d+\])?([\+#\-0\x20]{,2}((\d+|\*)?(\.?(\d+|\*|(\[\d+\])\*?)?(\[\d+\])?)?))?[vT%tbcdoqxXUbeEfFgGsp]'
+      scope: constant.other.placeholder.spwn
+  notes:
+    - match: ^#\[
+      scope: variable.annotation.spwn
+      push:
+        - meta_scope: string.quoted.single.spwn
+        - match: \]
+          scope: variable.annotation.spwn
+          pop: true

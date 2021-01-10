@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[while_loop(()=>${1:condition}, () {
+	$2
+})]]></content>
+	<tabTrigger>gdwhile</tabTrigger>
+	<!-- <description>Optionally, insert a description here</description> -->
+	<scope>source.spwn</scope>
+</snippet>

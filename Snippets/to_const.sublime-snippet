@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[to_const_enclosed(${2:iter},(${1:var}){
+	$3
+})]]></content>
+	<tabTrigger>toconst</tabTrigger>
+	<description>to_const_enclosed(...)</description>
+	<scope>source.spwn</scope>
+</snippet>

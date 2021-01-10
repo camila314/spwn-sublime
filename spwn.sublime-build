@@ -1,0 +1,7 @@
+{
+	"shell_cmd": "spwn build \"$file\"",
+	"file_regex": "^Error at (....*):([0-9]*):([0-9]*)",
+	"selector": "source.spwn",
+	"target": "ansi_color_build",
+	"syntax": "Packages/ANSIescape/ANSI.sublime-syntax"
+}

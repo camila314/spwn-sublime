@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[for_loop(${2:iter}, (${1:var}) {
+	$3
+})]]></content>
+	<tabTrigger>gdfor</tabTrigger>
+	<description>for_loop(...)</description>
+	<scope>source.spwn</scope>
+</snippet>

@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[type @${1:typename}]]></content>
+	<tabTrigger>type</tabTrigger>
+	<description>Define a new type</description>
+	<scope>source.spwn</scope>
+</snippet>
